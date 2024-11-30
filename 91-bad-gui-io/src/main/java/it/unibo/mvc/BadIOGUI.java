@@ -10,12 +10,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -40,9 +40,14 @@ public class BadIOGUI {
      */
     public BadIOGUI() {
         final JPanel canvas = new JPanel();
-        canvas.setLayout(new BorderLayout());
+        final JPanel canvas2 = new JPanel();
         final JButton write = new JButton("Write on file");
-        canvas.add(write, BorderLayout.CENTER);
+        final JButton read = new JButton("Read from file");
+        canvas.setLayout(new BorderLayout());
+        canvas.add(canvas2, BorderLayout.CENTER);
+        canvas2.setLayout(new BoxLayout(canvas2, BoxLayout.X_AXIS));
+        canvas2.add(write);
+        canvas2.add(read);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
@@ -66,13 +71,24 @@ public class BadIOGUI {
                 }
             }
         });
+        read.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                try (DataInputStream in = new DataInputStream(new FileInputStream(PATH))) {
+                    System.out.println(in.readInt()); // NOPMD: allowed as this is just an exercise
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace(); // NOPMD: allowed as this is just an exercise
+                }
+            }
+        });
     }
 
     private void display() {
         /*
          * Make the frame one fifth the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
-         * primary is selected. In order to deal coherently with multimonitor
+         * primary is selected. In order to deal coherently with multimonitor\
          * setups, other facilities exist (see the Java documentation about this
          * issue). It is MUCH better than manually specify the size of a window
          * in pixel: it takes into account the current resolution.
@@ -87,6 +103,7 @@ public class BadIOGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        frame.pack();
         /*
          * OK, ready to push the frame onscreen
          */
@@ -99,6 +116,6 @@ public class BadIOGUI {
      * @param args ignored
      */
     public static void main(final String... args) {
-       new BadIOGUI().display();
+        new BadIOGUI().display();
     }
 }
