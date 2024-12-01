@@ -24,7 +24,7 @@ Once the `Controller` is done, implement `SimpleGUI` class in such a way that:
 4. SUGGESTION: Use a `JPanel` with `BorderLayout`
 5. By default, if the graphical interface is closed the program must exit (call `setDefaultCloseOperation`)
 6. The program asks the controller to save the file if the button "Save" gets pressed.
-
+  
 See `src/test/resources/ex02.png` to verify the expected aspect.
 
 Finally, implement `SimpleGUIWithFileChooser` class as follows:
