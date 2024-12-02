@@ -11,7 +11,7 @@ acceptable, and an exception should be produced
 3. A method for getting the history of the printed strings (in form of a `List` of `Strings`)
 4. A method that prints the current string. 
 If the current string is unset, an `IllegalStateException` should be thrown
-
+ 
 
 Once the `Controller` is done, implement the `SimpleGUI` class in such a way that:
 
