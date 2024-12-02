@@ -4,6 +4,6 @@ public final class Main {
     private Main() { }
 
     public static void main(String[] args) { 
-        new SimpleGUIWithFileChooser().start();
+        new SimpleGUI(new Controller()).start();
     }
 }

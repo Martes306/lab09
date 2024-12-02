@@ -20,10 +20,9 @@ import java.io.IOException;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
-    private final Controller controller = new Controller();
     private static final int PROPORTION = 5;
 
-    public SimpleGUI() {
+    public SimpleGUI(final Controller ctrl) {
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         final JButton saveButton = new JButton("SAVE");
@@ -36,7 +35,7 @@ public final class SimpleGUI {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 try {
-                    controller.writeFile(textArea.getText());
+                    ctrl.writeFile(textArea.getText());
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
                 }

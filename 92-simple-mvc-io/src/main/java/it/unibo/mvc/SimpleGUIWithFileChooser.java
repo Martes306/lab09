@@ -23,10 +23,9 @@ public final class SimpleGUIWithFileChooser {
 
     private static final File DESKTOP = new File(System.getProperty("user.home") + File.separator + "Desktop");
     private final JFrame frame = new JFrame();
-    private final Controller controller = new Controller();
     private static final int PROPORTION = 4;
 
-    public SimpleGUIWithFileChooser() {
+    public SimpleGUIWithFileChooser(final Controller ctrl) {
         // base panel
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -54,7 +53,7 @@ public final class SimpleGUIWithFileChooser {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 try {
-                    controller.writeFile(fieldForText.getText());
+                    ctrl.writeFile(fieldForText.getText());
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -65,11 +64,20 @@ public final class SimpleGUIWithFileChooser {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JFileChooser fileChooser = new JFileChooser();
+                int fileChooserValue = fileChooser.showOpenDialog(saveButton);
                 fileChooser.setCurrentDirectory(DESKTOP);
-                if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    controller.setFile(fileChooser.getSelectedFile());
-                    showFileChoosen.setText(controller.getPath());
+                switch (fileChooserValue) {
+                    case JFileChooser.APPROVE_OPTION:
+                        ctrl.setFile(fileChooser.getSelectedFile());
+                        showFileChoosen.setText(ctrl.getPath());
+                        break;
+                    case JFileChooser.CANCEL_OPTION:
+                        break;
+                    default:
+                    JOptionPane.showMessageDialog(fileChooser, "Un errore spaca tutto");
+                        break;
                 }
+
             }
         });
     }
